@@ -1,0 +1,22 @@
+language: en-US
+early_access: true
+
+tone_instructions: >
+  Focus on RFC compliance (8288, 8941, 9110), symmetric parse/format pairs,
+  zero runtime dependency enforcement, and Ergo stack wire profile consistency.
+
+reviews:
+  profile: assertive
+  request_changes_workflow: true
+  linked_repositories:
+    - CentralPing/ergo
+    - CentralPing/ergo-fetch
+    - CentralPing/ergo-router
+
+  path_instructions:
+    - path: lib/idempotency.js
+      instructions: RFC 8941 sf-string charset must match parse/format round-trip.
+    - path: lib/link.js
+      instructions: Link format and parse must round-trip; per_page in pagination links.
+    - path: lib/pagination.js
+      instructions: Wire keys use per_page not perPage; serializeOffsetParams is canonical.

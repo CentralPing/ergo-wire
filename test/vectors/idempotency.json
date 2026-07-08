@@ -1,0 +1,10 @@
+{
+  "validRoundTrip": [
+    {"raw": "abc-123", "quoted": "\"abc-123\""},
+    {"raw": "a\"b", "quoted": "\"a\\\"b\""},
+    {"raw": "a\\b", "quoted": "\"a\\\\b\""},
+    {"raw": "a b", "quoted": "\"a b\""},
+    {"raw": "", "quoted": "\"\""}
+  ],
+  "invalidFormat": ["ab\nc", "ab\u007f", "ab\u0080"]
+}

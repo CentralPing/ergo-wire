@@ -1,0 +1,10 @@
+---
+description: Mandatory project context — read DECISIONS.md before any action
+alwaysApply: true
+---
+
+# Project Context
+
+**At the start of every conversation, before taking any action**, read `/DECISIONS.md` in full. This file contains architectural decisions, conventions, and constraints that govern all work in this project. Do not rely on memory or assumptions — always read the file fresh.
+
+When significant decisions are made during a conversation, update DECISIONS.md to reflect them before the conversation ends.

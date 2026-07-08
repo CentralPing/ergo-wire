@@ -1,0 +1,10 @@
+{
+  "seconds": [
+    {"input": "120", "minMs": 119000},
+    {"input": "0", "expectedMs": 0}
+  ],
+  "dates": [
+    {"input": "Wed, 01 Jan 2030 00:00:00 GMT"}
+  ],
+  "invalid": ["not-a-value", "2020-01-01T00:00:00Z", "-5"]
+}

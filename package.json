@@ -1,0 +1,118 @@
+{
+  "name": "@centralping/ergo-wire",
+  "version": "0.1.0-beta.1",
+  "description": "Symmetric HTTP wire-format primitives for the Ergo stack (RFC 8288, 8941, 9110)",
+  "main": "index.js",
+  "type": "module",
+  "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./index.js"
+    },
+    "./lib/*": {
+      "types": "./types/lib/*.d.ts",
+      "default": "./lib/*.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "lib/",
+    "types/",
+    "!**/*.spec.*.js",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write \"**/*.js\"",
+    "format:check": "prettier --check \"**/*.js\"",
+    "pretest": "npm run lint && npm run format:check",
+    "test": "c8 node --test \"**/*.spec.unit.js\"",
+    "test:watch": "node --test --watch \"**/*.spec.unit.js\"",
+    "preversion": "npm test",
+    "types": "tsc",
+    "check-types": "npm run types && tsc --project tsconfig.check-types.json",
+    "prepublishOnly": "npm test && npm run check-types",
+    "prepare": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "ergo",
+    "http",
+    "rfc-8288",
+    "rfc-8941",
+    "idempotency",
+    "pagination",
+    "link-header"
+  ],
+  "author": "Jason Cust <jason@centralping.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CentralPing/ergo-wire.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CentralPing/ergo-wire/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/CentralPing/ergo-wire",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/jasoncust"
+  },
+  "peerDependencies": {
+    "@types/node": ">= 22"
+  },
+  "peerDependenciesMeta": {
+    "@types/node": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.9.1",
+    "c8": "^11.0.0",
+    "eslint": "^10.0.3",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.4.0",
+    "lint-staged": "^17.0.3",
+    "prettier": "^3.8.1",
+    "simple-git-hooks": "^2.12.1",
+    "typescript": "^6.0.3"
+  },
+  "c8": {
+    "include": [
+      "lib/**/*.js",
+      "index.js"
+    ],
+    "exclude": [
+      "**/*.spec.*.js",
+      "**/node_modules/**",
+      "**/coverage/**"
+    ],
+    "branches": 80,
+    "functions": 100,
+    "lines": 80,
+    "statements": 80,
+    "reporter": [
+      "text",
+      "lcov"
+    ],
+    "all": true
+  }
+}

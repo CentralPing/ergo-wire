@@ -1,11 +1,51 @@
 version: 2
 updates:
-  - package-ecosystem: npm
-    directory: /
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: weekly
+      interval: "weekly"
     open-pull-requests-limit: 10
-  - package-ecosystem: github-actions
-    directory: /
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    cooldown:
+      default-days: 3
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 3
+    groups:
+      all-patches:
+        update-types:
+          - "patch"
+      dev-minor:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+      dev-major:
+        dependency-type: "development"
+        update-types:
+          - "major"
+      prod-minor:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+      prod-major:
+        dependency-type: "production"
+        update-types:
+          - "major"
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: weekly
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    cooldown:
+      default-days: 3
+    groups:
+      actions-patches:
+        update-types:
+          - "patch"
+      actions-minors:
+        update-types:
+          - "minor"

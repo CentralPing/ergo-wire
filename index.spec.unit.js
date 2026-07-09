@@ -10,6 +10,7 @@ describe('[Boundary] index exports', () => {
     assert.equal(typeof pkg.parseLinkHeader, 'function');
     assert.equal(typeof pkg.formatLinkHeader, 'function');
     assert.equal(typeof pkg.serializeOffsetParams, 'function');
+    assert.equal(typeof pkg.serializeCursorParams, 'function');
     assert.equal(typeof pkg.parseRetryAfter, 'function');
     assert.equal(typeof pkg.fingerprint, 'function');
   });

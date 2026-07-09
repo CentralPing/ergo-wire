@@ -2,6 +2,11 @@
   "serialize": [
     {"input": {"page": 2, "perPage": 25}, "wire": {"page": 2, "per_page": 25}}
   ],
+  "serializeCursor": [
+    {"input": {"limit": 10, "cursor": "tok"}, "wire": {"limit": 10, "cursor": "tok"}},
+    {"input": {}, "wire": {"limit": 20}},
+    {"input": {"limit": 50}, "wire": {"limit": 50}}
+  ],
   "parse": [
     {"query": {"page": "3", "per_page": "10"}, "expected": {"page": 3, "perPage": 10, "offset": 20, "limit": 10}}
   ]

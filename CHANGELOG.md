@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0-beta.2] - 2026-07-09
+
+### Added
+
+- `serializeCursorParams` — symmetric serializer for cursor pagination wire keys (`cursor`,
+  `limit`), matching `parseCursorParams`
+
 ## [0.1.0-beta.1] - 2026-07-08
 
 ### Added

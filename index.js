@@ -22,7 +22,8 @@ export {
   JSON_API_PAGE_STRATEGY_GROUPS,
   parseOffsetParams,
   serializeOffsetParams,
-  parseCursorParams
+  parseCursorParams,
+  serializeCursorParams
 } from './lib/pagination.js';
 export {parseRetryAfter, formatRetryAfter} from './lib/retry-after.js';
 export {

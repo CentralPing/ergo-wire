@@ -17,6 +17,7 @@ import {
   formatIdempotencyKey,
   parseIdempotencyKey,
   serializeOffsetParams,
+  serializeCursorParams,
   parseLinkHeader,
   formatLinkHeader,
   parseRetryAfter
@@ -24,6 +25,7 @@ import {
 
 formatIdempotencyKey('my-key'); // "\"my-key\""
 serializeOffsetParams({page: 2, perPage: 25}); // { page: 2, per_page: 25 }
+serializeCursorParams({limit: 10, cursor: 'tok'}); // { limit: 10, cursor: 'tok' }
 ```
 
 ## Ergo Stack Wire Profile

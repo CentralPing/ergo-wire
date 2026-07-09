@@ -1,6 +1,6 @@
 {
   "name": "@centralping/ergo-wire",
-  "version": "0.1.0-beta.1",
+  "version": "0.1.0-beta.2",
   "description": "Symmetric HTTP wire-format primitives for the Ergo stack (RFC 8288, 8941, 9110)",
   "main": "index.js",
   "type": "module",

@@ -15,6 +15,8 @@ jobs:
         node-version: [22, 24]
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: ${{ matrix.node-version }}
@@ -26,3 +28,11 @@ jobs:
         with:
           files: ./coverage/lcov.info
           token: ${{ secrets.CODECOV_TOKEN }}
+      - if: github.ref == 'refs/heads/main' && matrix.node-version == 22
+        uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4
+        continue-on-error: true
+        with:
+          token: ${{ secrets.WEBSITE_DISPATCH_TOKEN }}
+          repository: CentralPing/centralping.github.io
+          event-type: docs-update
+          client-payload: '{"package": "ergo-wire", "version": "dev"}'

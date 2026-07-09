@@ -4,19 +4,270 @@ early_access: true
 tone_instructions: >
   Focus on RFC compliance (8288, 8941, 9110), symmetric parse/format pairs,
   zero runtime dependency enforcement, and Ergo stack wire profile consistency.
+  Verify per_page wire keys, RFC 8941 sf-string charset, and round-trip invariants.
 
 reviews:
   profile: assertive
   request_changes_workflow: true
-  linked_repositories:
-    - CentralPing/ergo
-    - CentralPing/ergo-fetch
-    - CentralPing/ergo-router
+  high_level_summary: true
+  high_level_summary_in_walkthrough: true
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: true
+  review_details: true
+  poem: false
+  in_progress_fortune: false
+  review_status: true
+  related_issues: true
+  related_prs: true
+  assess_linked_issues: true
+  estimate_code_review_effort: true
+  enable_prompt_for_ai_agents: true
+  abort_on_close: true
 
   path_instructions:
-    - path: lib/idempotency.js
-      instructions: RFC 8941 sf-string charset must match parse/format round-trip.
-    - path: lib/link.js
-      instructions: Link format and parse must round-trip; per_page in pagination links.
-    - path: lib/pagination.js
-      instructions: Wire keys use per_page not perPage; serializeOffsetParams is canonical.
+    - path: "lib/idempotency.js"
+      instructions: >
+        RFC 8941 sf-string charset must match parse/format round-trip. Exported
+        formatIdempotencyKey and parseIdempotencyKey must be strict inverses for
+        valid inputs. assertSfStringInner must reject control chars and invalid tokens.
+
+    - path: "lib/link.js"
+      instructions: >
+        Link format and parse must round-trip per RFC 8288. paginationLinks and
+        cursorPaginationLinks must emit per_page (not perPage) in query strings.
+        parseLinkHeader must handle multiple relations and preserve target URIs.
+
+    - path: "lib/pagination.js"
+      instructions: >
+        Wire keys use per_page not perPage. serializeOffsetParams is canonical for
+        offset pagination and throws TypeError on invalid programmatic input.
+        parseOffsetParams and parseCursorParams apply defaults for missing or
+        non-numeric wire values and clamp results to configured bounds.
+
+    - path: "lib/retry-after.js"
+      instructions: >
+        parseRetryAfter must accept integer seconds and IMF-fixdate per RFC 9110.
+        formatRetryAfter output must be parseable by parseRetryAfter.
+
+    - path: "lib/fingerprint.js"
+      instructions: >
+        SHA-256 hex digest via Web Crypto only — no Node crypto imports. Must work
+        in browsers and Node 22+ without polyfills.
+
+    - path: "lib/quoted-string.js"
+      instructions: >
+        RFC 8941 quoted-string escaping must round-trip. No dependency on ergo or
+        transport layers.
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: false
+    drafts: false
+    ignore_title_keywords:
+      - "WIP"
+      - "DO NOT MERGE"
+      - "[skip review]"
+
+  finishing_touches:
+    docstrings:
+      enabled: false
+    unit_tests:
+      enabled: false
+    simplify:
+      enabled: false
+
+  pre_merge_checks:
+    docstrings:
+      mode: "off"
+    title:
+      mode: "warning"
+      requirements: |
+        PR title must follow conventional commit format: `{type}: {description} (#{issue-number})`
+        where type is one of: feat, fix, refactor, docs, chore, test, spike.
+        Description should be lowercase, imperative mood, concise.
+    description:
+      mode: "off"
+    issue_assessment:
+      mode: "warning"
+    custom_checks:
+      - name: "Wire Profile Consistency"
+        mode: "warning"
+        instructions: |
+          Pass/fail criteria for changed files:
+          - FAIL if pagination serialization emits perPage instead of per_page on the wire.
+          - FAIL if idempotency key formatting deviates from RFC 8941 sf-string rules.
+          - FAIL if Link header helpers omit required rel parameters for pagination links.
+          - PASS if wire keys and header formats match Ergo Stack Wire Profile v1.
+
+      - name: "Symmetric Parse/Format"
+        mode: "warning"
+        instructions: |
+          Pass/fail criteria for changed lib/ files:
+          - FAIL if a new format* export lacks a corresponding parse* export (or vice versa)
+            without documented justification.
+          - FAIL if round-trip tests are missing for new parse/format pairs.
+          - PASS if all new wire helpers maintain symmetric contracts.
+
+      - name: "Zero Runtime Dependencies"
+        mode: "error"
+        instructions: |
+          Pass/fail criteria for changed files:
+          - FAIL if package.json gains runtime dependencies (devDependencies only).
+          - FAIL if source imports from @centralping/ergo, @centralping/ergo-router,
+            node:* built-ins beyond test tooling, or any non-platform API.
+          - PASS if the package remains zero runtime dependency.
+
+      - name: "JSDoc Completeness"
+        mode: "warning"
+        instructions: |
+          Pass/fail criteria for changed JavaScript source files (excluding tests):
+          - FAIL if a new exported function lacks @param and @returns JSDoc annotations.
+          - FAIL if JSDoc uses uppercase primitives (String, Number, Boolean instead of
+            string, number, boolean), including inside compound types.
+          - FAIL if JSDoc uses @return instead of @returns.
+          - PASS if all JSDoc follows conventions, or if no source files changed.
+          Exclude test files from this check.
+
+      - name: "Zero Tech Debt"
+        mode: "error"
+        instructions: |
+          Pass/fail criteria for all changed files (exclude .coderabbit.yaml itself):
+          - FAIL if new source code lines (added in this PR, not pre-existing) contain
+            TODO, FIXME, HACK, or XXX comments. Exclude .coderabbit.yaml and other
+            CI/CD configuration files whose instructions reference these markers by name.
+          - PASS if no such markers are found in newly added lines.
+          This is a pre-release project with a zero-tech-debt policy — all work is either
+          done now or tracked as a GitHub issue.
+
+  tools:
+    ast-grep:
+      essential_rules: true
+    github-checks:
+      enabled: true
+      timeout_ms: 300000
+    shellcheck:
+      enabled: true
+    markdownlint:
+      enabled: true
+    languagetool:
+      enabled: true
+      level: "default"
+    gitleaks:
+      enabled: true
+    trufflehog:
+      enabled: true
+    yamllint:
+      enabled: true
+    actionlint:
+      enabled: true
+    zizmor:
+      enabled: true
+    biome:
+      enabled: false
+    eslint:
+      enabled: false
+    oxc:
+      enabled: false
+    ruff:
+      enabled: false
+    pylint:
+      enabled: false
+    flake8:
+      enabled: false
+    golangci-lint:
+      enabled: false
+    clippy:
+      enabled: false
+    phpstan:
+      enabled: false
+    phpmd:
+      enabled: false
+    phpcs:
+      enabled: false
+    swiftlint:
+      enabled: false
+    rubocop:
+      enabled: false
+    detekt:
+      enabled: false
+    buf:
+      enabled: false
+    regal:
+      enabled: false
+    pmd:
+      enabled: false
+    clang:
+      enabled: false
+    cppcheck:
+      enabled: false
+    fortitudeLint:
+      enabled: false
+    fbinfer:
+      enabled: false
+    sqlfluff:
+      enabled: false
+    hadolint:
+      enabled: false
+    circleci:
+      enabled: false
+    prismaLint:
+      enabled: false
+    luacheck:
+      enabled: false
+    brakeman:
+      enabled: false
+    dotenvLint:
+      enabled: false
+    htmlhint:
+      enabled: false
+    stylelint:
+      enabled: false
+    checkmake:
+      enabled: false
+    osvScanner:
+      enabled: true
+    blinter:
+      enabled: false
+    smartyLint:
+      enabled: false
+    emberTemplateLint:
+      enabled: false
+    psscriptanalyzer:
+      enabled: false
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  learnings:
+    scope: auto
+  issues:
+    scope: auto
+  pull_requests:
+    scope: auto
+  web_search:
+    enabled: true
+  code_guidelines:
+    enabled: true
+  linked_repositories:
+    - repository: "CentralPing/ergo"
+      instructions: >
+        Re-exports ergo-wire primitives from lib/ via non-breaking shims. Changes to
+        wire format here may require ergo shim updates and downstream consumer checks.
+    - repository: "CentralPing/ergo-fetch"
+      instructions: >
+        Runtime consumer of @centralping/ergo-wire for client-side parse/format. Wire
+        key changes must stay aligned with ergo-fetch pagination and idempotency usage.
+    - repository: "CentralPing/ergo-router"
+      instructions: >
+        Inherits wire behavior through @centralping/ergo middleware. Pagination links
+        and idempotency headers on the server must match this package's wire profile.
+
+issue_enrichment:
+  auto_enrich:
+    enabled: true
+  planning:
+    enabled: true
+    auto_planning:
+      enabled: true

@@ -41,8 +41,9 @@ reviews:
     - path: "lib/pagination.js"
       instructions: >
         Wire keys use per_page not perPage. serializeOffsetParams is canonical for
-        offset pagination. parseOffsetParams and parseCursorParams must reject
-        invalid numeric input without coercing unsafe values.
+        offset pagination and throws TypeError on invalid programmatic input.
+        parseOffsetParams and parseCursorParams apply defaults for missing or
+        non-numeric wire values and clamp results to configured bounds.
 
     - path: "lib/retry-after.js"
       instructions: >
@@ -111,7 +112,7 @@ reviews:
       - name: "Zero Runtime Dependencies"
         mode: "error"
         instructions: |
-          Pass/fail criteria for changed source files:
+          Pass/fail criteria for changed files:
           - FAIL if package.json gains runtime dependencies (devDependencies only).
           - FAIL if source imports from @centralping/ergo, @centralping/ergo-router,
             node:* built-ins beyond test tooling, or any non-platform API.

@@ -3,6 +3,12 @@
  * @module @centralping/ergo-wire
  */
 
+/**
+ * @typedef {import('./lib/link.js').LinkObject} LinkObject
+ * @typedef {import('./lib/pagination.js').OffsetParseOptions} OffsetParseOptions
+ * @typedef {import('./lib/pagination.js').CursorParseOptions} CursorParseOptions
+ */
+
 export {assertSfStringInner, formatIdempotencyKey, parseIdempotencyKey} from './lib/idempotency.js';
 export {fingerprint} from './lib/fingerprint.js';
 export {

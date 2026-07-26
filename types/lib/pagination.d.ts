@@ -81,13 +81,13 @@ export declare function parseOffsetParams(query?: object, options?: OffsetParseO
  *
  * Accepts ergonomic `perPage` and emits canonical `per_page`.
  *
- * @param {object} params - Pagination values.
+ * @param {{page?: number, perPage?: number}} [params] - Pagination values (defaults applied when omitted).
  * @param {number} [params.page=DEFAULT_PAGE] - Page number (1-based).
  * @param {number} [params.perPage=DEFAULT_PER_PAGE] - Items per page.
  * @returns {Readonly<{page: number, per_page: number}>} - Wire query object.
  * @throws {TypeError} When page or perPage are not positive integers.
  */
-export declare function serializeOffsetParams(params: {
+export declare function serializeOffsetParams(params?: {
     page?: number;
     perPage?: number;
 }): Readonly<{
@@ -99,13 +99,13 @@ export declare function serializeOffsetParams(params: {
  *
  * Emits canonical {@link CURSOR_PAGINATION_KEYS} (`cursor`, `limit`) on the wire.
  *
- * @param {object} params - Pagination values.
+ * @param {{limit?: number, cursor?: string}} [params] - Pagination values (defaults applied when omitted).
  * @param {number} [params.limit=DEFAULT_CURSOR_LIMIT] - Items per page.
  * @param {string} [params.cursor] - Opaque cursor token.
  * @returns {Readonly<{limit: number, cursor?: string}>} - Wire query object.
  * @throws {TypeError} When limit is not a positive integer or cursor is not a string.
  */
-export declare function serializeCursorParams(params: {
+export declare function serializeCursorParams(params?: {
     limit?: number;
     cursor?: string;
 }): Readonly<{

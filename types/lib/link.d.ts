@@ -3,31 +3,27 @@
  * @module @centralping/ergo-wire/lib/link
  */
 export type LinkObject = {
-    /**
-     * - Resolved target URI.
-     */
     href: string;
-    /**
-     * - Relationship type.
-     */
     rel: string;
+    [parameter: string]: string;
 };
 /**
- * @typedef {object} LinkObject
- * @property {string} href - Resolved target URI.
- * @property {string} rel - Relationship type.
+ * RFC 8288 link target with relationship and optional parameters (e.g. `title`).
+ *
+ * @typedef {{
+ *   href: string,
+ *   rel: string,
+ *   [parameter: string]: string
+ * }} LinkObject
  */
 /**
  * Formats link objects into an RFC 8288 Link header value.
  *
- * @param {Array<{href: string, rel: string}>} links - Link descriptors.
+ * @param {Array<LinkObject>} links - Link descriptors.
  * @returns {string} - Formatted header value.
  * @throws {TypeError} When href or parameter keys are invalid.
  */
-export declare function formatLinkHeader(links: Array<{
-    href: string;
-    rel: string;
-}>): string;
+export declare function formatLinkHeader(links: Array<LinkObject>): string;
 /**
  * Generates pagination link objects for offset pagination.
  *

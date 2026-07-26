@@ -16,6 +16,10 @@ All notable changes to this project will be documented in this file.
   same-rel preservation tracked in [#22](https://github.com/CentralPing/ergo-wire/issues/22)
 - Expose named `OffsetParseOptions` / `CursorParseOptions` in pagination declarations
   instead of opaque `object`
+- Re-export public declaration types from the package root; widen `LinkObject` for RFC 8288
+  parameters; make serialize `params` optional to match runtime defaults
+- `check-types` fails when committed `types/` drift from `tsc` output
+
 ## [0.1.0-beta.2] - 2026-07-09
 
 ### Added

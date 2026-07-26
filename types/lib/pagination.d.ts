@@ -28,14 +28,49 @@ export declare const CURSOR_PAGINATION_KEYS: Readonly<{
  * @type {ReadonlyArray<ReadonlyArray<string>>}
  */
 export declare const JSON_API_PAGE_STRATEGY_GROUPS: ReadonlyArray<ReadonlyArray<string>>;
+export type OffsetParseOptions = {
+    /**
+     * - Fallback page when query.page is absent/invalid.
+     */
+    defaultPage?: number;
+    /**
+     * - Fallback per-page when query.per_page is absent/invalid.
+     */
+    defaultPerPage?: number;
+    /**
+     * - Upper bound applied to the resolved per-page value.
+     */
+    maxPerPage?: number;
+};
+export type CursorParseOptions = {
+    /**
+     * - Fallback limit when query.limit is absent/invalid.
+     */
+    defaultLimit?: number;
+    /**
+     * - Upper bound applied to the resolved limit value.
+     */
+    maxLimit?: number;
+};
+/**
+ * @typedef {object} OffsetParseOptions
+ * @property {number} [defaultPage=DEFAULT_PAGE] - Fallback page when query.page is absent/invalid.
+ * @property {number} [defaultPerPage=DEFAULT_PER_PAGE] - Fallback per-page when query.per_page is absent/invalid.
+ * @property {number} [maxPerPage=MAX_PER_PAGE] - Upper bound applied to the resolved per-page value.
+ */
+/**
+ * @typedef {object} CursorParseOptions
+ * @property {number} [defaultLimit=DEFAULT_CURSOR_LIMIT] - Fallback limit when query.limit is absent/invalid.
+ * @property {number} [maxLimit=MAX_CURSOR_LIMIT] - Upper bound applied to the resolved limit value.
+ */
 /**
  * Parses offset pagination parameters from a query object.
  *
  * @param {object} [query] - Parsed query object.
- * @param {object} [options] - Override defaults and bounds.
+ * @param {OffsetParseOptions} [options] - Override defaults and bounds.
  * @returns {{page: number, perPage: number, offset: number, limit: number}} - Parsed params.
  */
-export declare function parseOffsetParams(query?: object, options?: object): {
+export declare function parseOffsetParams(query?: object, options?: OffsetParseOptions): {
     page: number;
     perPage: number;
     offset: number;
@@ -81,10 +116,10 @@ export declare function serializeCursorParams(params: {
  * Parses cursor pagination parameters from a query object.
  *
  * @param {object} [query] - Parsed query object.
- * @param {object} [options] - Override defaults and bounds.
+ * @param {CursorParseOptions} [options] - Override defaults and bounds.
  * @returns {{cursor: string|undefined, limit: number}} - Parsed cursor and limit.
  */
-export declare function parseCursorParams(query?: object, options?: object): {
+export declare function parseCursorParams(query?: object, options?: CursorParseOptions): {
     cursor: string | undefined;
     limit: number;
 };

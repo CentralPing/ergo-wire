@@ -10,6 +10,12 @@ All notable changes to this project will be documented in this file.
   (`github:CentralPing/ergo-wire#tag`) include `types/**/*.d.ts` even when consumers
   use `npm ci --ignore-scripts` ([#20](https://github.com/CentralPing/ergo-wire/issues/20))
 
+### Changed
+
+- Document `parseLinkHeader` last-wins-by-rel Map contract (Wire Profile v1); multi-valued
+  same-rel preservation tracked in [#22](https://github.com/CentralPing/ergo-wire/issues/22)
+- Expose named `OffsetParseOptions` / `CursorParseOptions` in pagination declarations
+  instead of opaque `object`
 ## [0.1.0-beta.2] - 2026-07-09
 
 ### Added

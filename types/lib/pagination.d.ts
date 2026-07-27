@@ -52,6 +52,26 @@ export type CursorParseOptions = {
      */
     maxLimit?: number;
 };
+export type OffsetWireQuery = {
+    /**
+     * - 1-based page number.
+     */
+    page?: string | number;
+    /**
+     * - Items per page.
+     */
+    per_page?: string | number;
+};
+export type CursorWireQuery = {
+    /**
+     * - Opaque cursor token.
+     */
+    cursor?: string;
+    /**
+     * - Items per page.
+     */
+    limit?: string | number;
+};
 /**
  * @typedef {object} OffsetParseOptions
  * @property {number} [defaultPage=DEFAULT_PAGE] - Fallback page when query.page is absent/invalid.
@@ -64,13 +84,28 @@ export type CursorParseOptions = {
  * @property {number} [maxLimit=MAX_CURSOR_LIMIT] - Upper bound applied to the resolved limit value.
  */
 /**
+ * Wire query shape for offset pagination keys (`page`, `per_page`).
+ * Values may be strings (URLSearchParams) or numbers (pre-parsed query objects).
+ *
+ * @typedef {object} OffsetWireQuery
+ * @property {string|number} [page] - 1-based page number.
+ * @property {string|number} [per_page] - Items per page.
+ */
+/**
+ * Wire query shape for cursor pagination keys (`cursor`, `limit`).
+ *
+ * @typedef {object} CursorWireQuery
+ * @property {string} [cursor] - Opaque cursor token.
+ * @property {string|number} [limit] - Items per page.
+ */
+/**
  * Parses offset pagination parameters from a query object.
  *
- * @param {object} [query] - Parsed query object.
+ * @param {OffsetWireQuery} [query] - Parsed query object.
  * @param {OffsetParseOptions} [options] - Override defaults and bounds.
  * @returns {{page: number, perPage: number, offset: number, limit: number}} - Parsed params.
  */
-export declare function parseOffsetParams(query?: object, options?: OffsetParseOptions): {
+export declare function parseOffsetParams(query?: OffsetWireQuery, options?: OffsetParseOptions): {
     page: number;
     perPage: number;
     offset: number;
@@ -115,11 +150,11 @@ export declare function serializeCursorParams(params?: {
 /**
  * Parses cursor pagination parameters from a query object.
  *
- * @param {object} [query] - Parsed query object.
+ * @param {CursorWireQuery} [query] - Parsed query object.
  * @param {CursorParseOptions} [options] - Override defaults and bounds.
  * @returns {{cursor: string|undefined, limit: number}} - Parsed cursor and limit.
  */
-export declare function parseCursorParams(query?: object, options?: CursorParseOptions): {
+export declare function parseCursorParams(query?: CursorWireQuery, options?: CursorParseOptions): {
     cursor: string | undefined;
     limit: number;
 };

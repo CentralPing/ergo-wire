@@ -5,10 +5,14 @@
 export type LinkObject = import('./lib/link.js').LinkObject;
 export type OffsetParseOptions = import('./lib/pagination.js').OffsetParseOptions;
 export type CursorParseOptions = import('./lib/pagination.js').CursorParseOptions;
+export type OffsetWireQuery = import('./lib/pagination.js').OffsetWireQuery;
+export type CursorWireQuery = import('./lib/pagination.js').CursorWireQuery;
 /**
  * @typedef {import('./lib/link.js').LinkObject} LinkObject
  * @typedef {import('./lib/pagination.js').OffsetParseOptions} OffsetParseOptions
  * @typedef {import('./lib/pagination.js').CursorParseOptions} CursorParseOptions
+ * @typedef {import('./lib/pagination.js').OffsetWireQuery} OffsetWireQuery
+ * @typedef {import('./lib/pagination.js').CursorWireQuery} CursorWireQuery
  */
 export { assertSfStringInner, formatIdempotencyKey, parseIdempotencyKey } from './lib/idempotency.js';
 export { fingerprint } from './lib/fingerprint.js';

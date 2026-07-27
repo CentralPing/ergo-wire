@@ -20,7 +20,9 @@ export declare function formatIdempotencyKey(value: string): string;
 /**
  * Parse an `Idempotency-Key` header value as an RFC 8941 sf-string.
  *
- * @param {string | undefined} header - Raw header value.
+ * Accepts `null` so callers can pass `Headers.get(...)` without a cast.
+ *
+ * @param {string | null | undefined} header - Raw header value.
  * @returns {string | undefined} - Parsed key value, or undefined.
  */
-export declare function parseIdempotencyKey(header: string | undefined): string | undefined;
+export declare function parseIdempotencyKey(header: string | null | undefined): string | undefined;

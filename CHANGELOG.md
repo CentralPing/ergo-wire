@@ -18,6 +18,9 @@ All notable changes to this project will be documented in this file.
   instead of opaque `object`
 - Re-export public declaration types from the package root; widen `LinkObject` for RFC 8288
   parameters; make serialize `params` optional to match runtime defaults
+- Accept `null` in `parseIdempotencyKey` declarations (matches `Headers.get` + runtime nullish guard)
+- Type pagination parsers with explicit `OffsetWireQuery` / `CursorWireQuery` shapes (runtime
+  coercion hardening remains [#23](https://github.com/CentralPing/ergo-wire/issues/23))
 - `check-types` fails when committed `types/` drift from `tsc` output, including
   untracked declaration files and orphan tracked `.d.ts` left after source removal
   (`types` regenerates from a clean emit directory)

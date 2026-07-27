@@ -7,6 +7,8 @@
  * @typedef {import('./lib/link.js').LinkObject} LinkObject
  * @typedef {import('./lib/pagination.js').OffsetParseOptions} OffsetParseOptions
  * @typedef {import('./lib/pagination.js').CursorParseOptions} CursorParseOptions
+ * @typedef {import('./lib/pagination.js').OffsetWireQuery} OffsetWireQuery
+ * @typedef {import('./lib/pagination.js').CursorWireQuery} CursorWireQuery
  */
 
 export {assertSfStringInner, formatIdempotencyKey, parseIdempotencyKey} from './lib/idempotency.js';

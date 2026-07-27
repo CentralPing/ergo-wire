@@ -32,7 +32,7 @@
     "test": "c8 node --test \"**/*.spec.unit.js\"",
     "test:watch": "node --test --watch \"**/*.spec.unit.js\"",
     "preversion": "npm test",
-    "types": "tsc",
+    "types": "rm -rf types && tsc",
     "check-types": "npm run types && git diff --exit-code -- types && test -z \"$(git status --porcelain -- types)\" && tsc --project tsconfig.check-types.json",
     "prepublishOnly": "npm test && npm run check-types",
     "prepare": "simple-git-hooks"

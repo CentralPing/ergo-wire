@@ -2,48 +2,87 @@
  * @fileoverview Ergo stack pagination wire-key primitives.
  * @module @centralping/ergo-wire/lib/pagination
  */
-
 /** @type {number} */
-export const DEFAULT_PAGE = 1;
+export declare const DEFAULT_PAGE: number;
 /** @type {number} */
-export const DEFAULT_PER_PAGE = 20;
+export declare const DEFAULT_PER_PAGE: number;
 /** @type {number} */
-export const MAX_PER_PAGE = 100;
+export declare const MAX_PER_PAGE: number;
 /** @type {number} */
-export const DEFAULT_CURSOR_LIMIT = 20;
+export declare const DEFAULT_CURSOR_LIMIT: number;
 /** @type {number} */
-export const MAX_CURSOR_LIMIT = 100;
-
+export declare const MAX_CURSOR_LIMIT: number;
 /** @type {Readonly<{page: string, per_page: string}>} */
-export const OFFSET_PAGINATION_KEYS = Object.freeze({page: 'page', per_page: 'per_page'});
-
+export declare const OFFSET_PAGINATION_KEYS: Readonly<{
+    page: string;
+    per_page: string;
+}>;
 /** @type {Readonly<{cursor: string, limit: string}>} */
-export const CURSOR_PAGINATION_KEYS = Object.freeze({cursor: 'cursor', limit: 'limit'});
-
+export declare const CURSOR_PAGINATION_KEYS: Readonly<{
+    cursor: string;
+    limit: string;
+}>;
 /**
  * Known JSON:API page parameter keys grouped by pagination strategy.
  *
  * @type {ReadonlyArray<ReadonlyArray<string>>}
  */
-export const JSON_API_PAGE_STRATEGY_GROUPS = Object.freeze([
-  Object.freeze(['number', 'size']),
-  Object.freeze(['offset', 'limit']),
-  Object.freeze(['cursor'])
-]);
-
+export declare const JSON_API_PAGE_STRATEGY_GROUPS: ReadonlyArray<ReadonlyArray<string>>;
+export type OffsetParseOptions = {
+    /**
+     * - Fallback page when query.page is absent/invalid.
+     */
+    defaultPage?: number;
+    /**
+     * - Fallback per-page when query.per_page is absent/invalid.
+     */
+    defaultPerPage?: number;
+    /**
+     * - Upper bound applied to the resolved per-page value.
+     */
+    maxPerPage?: number;
+};
+export type CursorParseOptions = {
+    /**
+     * - Fallback limit when query.limit is absent/invalid.
+     */
+    defaultLimit?: number;
+    /**
+     * - Upper bound applied to the resolved limit value.
+     */
+    maxLimit?: number;
+};
+export type OffsetWireQuery = {
+    /**
+     * - 1-based page number.
+     */
+    page?: string | number;
+    /**
+     * - Items per page.
+     */
+    per_page?: string | number;
+};
+export type CursorWireQuery = {
+    /**
+     * - Opaque cursor token.
+     */
+    cursor?: string;
+    /**
+     * - Items per page.
+     */
+    limit?: string | number;
+};
 /**
  * @typedef {object} OffsetParseOptions
  * @property {number} [defaultPage=DEFAULT_PAGE] - Fallback page when query.page is absent/invalid.
  * @property {number} [defaultPerPage=DEFAULT_PER_PAGE] - Fallback per-page when query.per_page is absent/invalid.
  * @property {number} [maxPerPage=MAX_PER_PAGE] - Upper bound applied to the resolved per-page value.
  */
-
 /**
  * @typedef {object} CursorParseOptions
  * @property {number} [defaultLimit=DEFAULT_CURSOR_LIMIT] - Fallback limit when query.limit is absent/invalid.
  * @property {number} [maxLimit=MAX_CURSOR_LIMIT] - Upper bound applied to the resolved limit value.
  */
-
 /**
  * Wire query shape for offset pagination keys (`page`, `per_page`).
  * Values may be strings (URLSearchParams) or numbers (pre-parsed query objects).
@@ -52,7 +91,6 @@ export const JSON_API_PAGE_STRATEGY_GROUPS = Object.freeze([
  * @property {string|number} [page] - 1-based page number.
  * @property {string|number} [per_page] - Items per page.
  */
-
 /**
  * Wire query shape for cursor pagination keys (`cursor`, `limit`).
  *
@@ -60,7 +98,6 @@ export const JSON_API_PAGE_STRATEGY_GROUPS = Object.freeze([
  * @property {string} [cursor] - Opaque cursor token.
  * @property {string|number} [limit] - Items per page.
  */
-
 /**
  * Parses offset pagination parameters from a query object.
  *
@@ -68,26 +105,12 @@ export const JSON_API_PAGE_STRATEGY_GROUPS = Object.freeze([
  * @param {OffsetParseOptions} [options] - Override defaults and bounds.
  * @returns {{page: number, perPage: number, offset: number, limit: number}} - Parsed params.
  */
-export function parseOffsetParams(query, options) {
-  const {
-    defaultPage = DEFAULT_PAGE,
-    defaultPerPage = DEFAULT_PER_PAGE,
-    maxPerPage = MAX_PER_PAGE
-  } = options ?? {};
-
-  const rawPage = parseInt(query?.page, 10);
-  const rawPerPage = parseInt(query?.per_page, 10);
-
-  const perPage = Math.min(
-    Math.max(1, Number.isNaN(rawPerPage) ? defaultPerPage : rawPerPage),
-    maxPerPage
-  );
-  const page = Math.max(1, Number.isNaN(rawPage) ? defaultPage : rawPage);
-  const offset = (page - 1) * perPage;
-
-  return {page, perPage, offset, limit: perPage};
-}
-
+export declare function parseOffsetParams(query?: OffsetWireQuery, options?: OffsetParseOptions): {
+    page: number;
+    perPage: number;
+    offset: number;
+    limit: number;
+};
 /**
  * Serializes offset pagination parameters for wire transport.
  *
@@ -99,24 +122,13 @@ export function parseOffsetParams(query, options) {
  * @returns {Readonly<{page: number, per_page: number}>} - Wire query object.
  * @throws {TypeError} When page or perPage are not positive integers.
  */
-export function serializeOffsetParams(params) {
-  const page = params?.page ?? DEFAULT_PAGE;
-  const perPage = params?.perPage ?? DEFAULT_PER_PAGE;
-
-  if (!Number.isInteger(page) || page < 1) {
-    throw new TypeError('page must be a positive integer');
-  }
-
-  if (!Number.isInteger(perPage) || perPage < 1) {
-    throw new TypeError('perPage must be a positive integer');
-  }
-
-  const wire = Object.create(null);
-  wire.page = page;
-  wire.per_page = perPage;
-  return Object.freeze(wire);
-}
-
+export declare function serializeOffsetParams(params?: {
+    page?: number;
+    perPage?: number;
+}): Readonly<{
+    page: number;
+    per_page: number;
+}>;
 /**
  * Serializes cursor pagination parameters for wire transport.
  *
@@ -128,27 +140,13 @@ export function serializeOffsetParams(params) {
  * @returns {Readonly<{limit: number, cursor?: string}>} - Wire query object.
  * @throws {TypeError} When limit is not a positive integer or cursor is not a string.
  */
-export function serializeCursorParams(params) {
-  const limit = params?.limit ?? DEFAULT_CURSOR_LIMIT;
-
-  if (!Number.isInteger(limit) || limit < 1) {
-    throw new TypeError('limit must be a positive integer');
-  }
-
-  const wire = Object.create(null);
-  wire.limit = limit;
-
-  if (params?.cursor !== undefined) {
-    const {cursor} = params;
-    if (typeof cursor !== 'string') {
-      throw new TypeError('cursor must be a string');
-    }
-    wire.cursor = cursor;
-  }
-
-  return Object.freeze(wire);
-}
-
+export declare function serializeCursorParams(params?: {
+    limit?: number;
+    cursor?: string;
+}): Readonly<{
+    limit: number;
+    cursor?: string;
+}>;
 /**
  * Parses cursor pagination parameters from a query object.
  *
@@ -156,12 +154,7 @@ export function serializeCursorParams(params) {
  * @param {CursorParseOptions} [options] - Override defaults and bounds.
  * @returns {{cursor: string|undefined, limit: number}} - Parsed cursor and limit.
  */
-export function parseCursorParams(query, options) {
-  const {defaultLimit = DEFAULT_CURSOR_LIMIT, maxLimit = MAX_CURSOR_LIMIT} = options ?? {};
-
-  const rawLimit = parseInt(query?.limit, 10);
-  const limit = Math.min(Math.max(1, Number.isNaN(rawLimit) ? defaultLimit : rawLimit), maxLimit);
-  const cursor = query?.cursor;
-
-  return {cursor, limit};
-}
+export declare function parseCursorParams(query?: CursorWireQuery, options?: CursorParseOptions): {
+    cursor: string | undefined;
+    limit: number;
+};

@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0-beta.3] - 2026-07-25
+
+### Fixed
+
+- Ship generated TypeScript declarations in the git tree so GitHub installs
+  (`github:CentralPing/ergo-wire#tag`) include `types/**/*.d.ts` even when consumers
+  use `npm ci --ignore-scripts` ([#20](https://github.com/CentralPing/ergo-wire/issues/20))
+
+### Changed
+
+- Document `parseLinkHeader` last-wins-by-rel Map contract (Wire Profile v1); multi-valued
+  same-rel preservation tracked in [#22](https://github.com/CentralPing/ergo-wire/issues/22)
+- Expose named `OffsetParseOptions` / `CursorParseOptions` in pagination declarations
+  instead of opaque `object`
+- Re-export public declaration types from the package root; widen `LinkObject` for RFC 8288
+  parameters; make serialize `params` optional to match runtime defaults
+- Accept `null` in `parseIdempotencyKey` declarations (matches `Headers.get` + runtime nullish guard)
+- Type pagination parsers with explicit `OffsetWireQuery` / `CursorWireQuery` shapes (runtime
+  coercion hardening remains [#23](https://github.com/CentralPing/ergo-wire/issues/23))
+- `check-types` fails when committed `types/` drift from `tsc` output, including
+  untracked declaration files and orphan tracked `.d.ts` left after source removal
+  (`types` regenerates from a clean emit directory)
+
 ## [0.1.0-beta.2] - 2026-07-09
 
 ### Added

@@ -39,7 +39,8 @@ serializeCursorParams({limit: 10, cursor: 'tok'}); // { limit: 10, cursor: 'tok'
 
 ## Package size
 
-The published package contains only pure JS primitives under `lib/` (~15KB uncompressed source).
+The published package contains pure JS primitives under `lib/` (~15KB uncompressed source)
+plus generated TypeScript declarations under `types/`.
 
 ## License
 

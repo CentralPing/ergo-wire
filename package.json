@@ -1,6 +1,6 @@
 {
   "name": "@centralping/ergo-wire",
-  "version": "0.1.0-beta.2",
+  "version": "0.1.0-beta.3",
   "description": "Symmetric HTTP wire-format primitives for the Ergo stack (RFC 8288, 8941, 9110)",
   "main": "index.js",
   "type": "module",
@@ -32,8 +32,8 @@
     "test": "c8 node --test \"**/*.spec.unit.js\"",
     "test:watch": "node --test --watch \"**/*.spec.unit.js\"",
     "preversion": "npm test",
-    "types": "tsc",
-    "check-types": "npm run types && tsc --project tsconfig.check-types.json",
+    "types": "rm -rf types && tsc",
+    "check-types": "npm run types && git diff --exit-code -- types && test -z \"$(git status --porcelain -- types)\" && tsc --project tsconfig.check-types.json",
     "prepublishOnly": "npm test && npm run check-types",
     "prepare": "simple-git-hooks"
   },

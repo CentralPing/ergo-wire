@@ -20,8 +20,8 @@ All notable changes to this project will be documented in this file.
 - `check-types` fails when committed `types/` drift from `tsc` output, including
   untracked declaration files and orphan tracked `.d.ts` left after source removal
   (`types` regenerates from a clean emit directory)
-- First successful npm registry publish of `@centralping/ergo-wire` (OIDC trusted publishing
-  via `release.yml`). `0.1.0-beta.3` remains an unpublished git-tag snapshot.
+- `0.1.0-beta.4` names the first planned npm registry publish (OIDC trusted publishing via
+  `release.yml` after GitHub Release). `0.1.0-beta.3` remains an unpublished git-tag snapshot.
 
 ## [0.1.0-beta.3] - 2026-07-25
 

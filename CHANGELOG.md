@@ -2,13 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.0-beta.3] - 2026-07-25
+## [Unreleased]
 
-### Fixed
-
-- Ship generated TypeScript declarations in the git tree so GitHub installs
-  (`github:CentralPing/ergo-wire#tag`) include `types/**/*.d.ts` even when consumers
-  use `npm ci --ignore-scripts` ([#20](https://github.com/CentralPing/ergo-wire/issues/20))
+## [0.1.0-beta.4]
 
 ### Changed
 
@@ -24,6 +20,16 @@ All notable changes to this project will be documented in this file.
 - `check-types` fails when committed `types/` drift from `tsc` output, including
   untracked declaration files and orphan tracked `.d.ts` left after source removal
   (`types` regenerates from a clean emit directory)
+- `0.1.0-beta.4` names the first planned npm registry publish (OIDC trusted publishing via
+  `release.yml` after GitHub Release). `0.1.0-beta.3` remains an unpublished git-tag snapshot.
+
+## [0.1.0-beta.3] - 2026-07-25
+
+### Fixed
+
+- Ship generated TypeScript declarations in the git tree so GitHub installs
+  (`github:CentralPing/ergo-wire#tag`) include `types/**/*.d.ts` even when consumers
+  use `npm ci --ignore-scripts` ([#20](https://github.com/CentralPing/ergo-wire/issues/20))
 
 ## [0.1.0-beta.2] - 2026-07-09
 
